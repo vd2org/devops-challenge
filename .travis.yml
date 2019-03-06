@@ -1,7 +1,7 @@
 dist: xenial
 language: python
 python: 3.7
-install: pip install --user -r app/requirements.txt
+install: pip install -r app/requirements.txt
 before_script: cd app
 script:
     - pytest
