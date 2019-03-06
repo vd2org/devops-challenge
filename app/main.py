@@ -3,9 +3,9 @@ from flask import g
 from app import app
 import os
 
-import boto3
 from botocore.exceptions import ClientError, EndpointConnectionError
 
+import dynamo
 import health
 import secret
 
@@ -15,17 +15,8 @@ try:
                             CONTAINER_URL=os.environ['CONTAINER_URL'],
                             PROJECT_URL=os.environ['PROJECT_URL'])
 
-    # setup aws session
-    boto3.setup_default_session(aws_access_key_id=os.environ['AWS_KEY'],
-                                aws_secret_access_key=os.environ['AWS_SECRET'],
-                                region_name=os.environ['AWS_REGION'])
-
-    # setup dynamodb connection
-    dynamo = boto3.resource('dynamodb', endpoint_url=os.environ.get('DYNAMO_ENDPOINT'))
-    table = dynamo.Table('devops-challenge')
-
-    # checking connection
-    is_table_existing = table.table_status in ("CREATING", "UPDATING", "DELETING", "ACTIVE")
+    dynamo, table = dynamo.get_dynamo(os.environ['AWS_KEY'], os.environ['AWS_SECRET'],
+                                      os.environ['AWS_REGION'], os.environ.get('DYNAMO_ENDPOINT'))
 
 except KeyError as e:
     # missing configuration environment
