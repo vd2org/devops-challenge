@@ -22,8 +22,8 @@ try:
 
     # setup dynamodb connection
     # dynamodb_client = boto3.client('dynamodb', endpoint_url=os.environ.get('DYNAMO_ENDPOINT'))
-    g.dynamo = boto3.resource('dynamodb', endpoint_url=os.environ.get('DYNAMO_ENDPOINT'))
-    g.table = g.dynamo.Table('devops-challeng')
+    dynamo = boto3.resource('dynamodb', endpoint_url=os.environ.get('DYNAMO_ENDPOINT'))
+    table = dynamo.Table('devops-challenge')
 
 except KeyError as e:
     # missing configuration environment
@@ -38,6 +38,16 @@ except ClientError as e:
 
     # reraise other exceptions
     raise
+
+
+@app.before_request
+def before_request():
+    """\
+    Setups database variables in application context.
+    """
+    g.dynamo = dynamo
+    g.table = table
+
 
 if __name__ == '__main__':
     app.run(debug=True)
