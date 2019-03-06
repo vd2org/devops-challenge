@@ -15,4 +15,6 @@ WORKDIR /opt/app
 
 RUN adduser -D -H -s sbin/nologin application
 
+EXPOSE 5000
+
 CMD uwsgi --uid application --gid application --master --need-app --chdir /opt/app/ --wsgi-file main.py --callable app --http 0.0.0.0:5000 --processes 5 --threads 2
