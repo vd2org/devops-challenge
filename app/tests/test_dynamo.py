@@ -13,6 +13,10 @@ TEST_CODENAME = 'test-challenge'
 @pytest.fixture
 def func():
     with mock_dynamodb2():
+        # setup aws session
+        boto3.setup_default_session(aws_access_key_id='FakeKey',
+                                    aws_secret_access_key='FakeSecret',
+                                    region_name='us-east-1')
         # Connect to mocked dynamodb, and create table.
         table = boto3.resource('dynamodb', 'us-east-1').create_table(
             TableName='devops-challenge',

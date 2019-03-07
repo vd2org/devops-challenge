@@ -20,6 +20,10 @@ def client():
     app.config['CODENAME'] = TEST_CODENAME
 
     with mock_dynamodb2(), app.app_context():
+        # setup aws session
+        boto3.setup_default_session(aws_access_key_id='FakeKey',
+                                    aws_secret_access_key='FakeSecret',
+                                    region_name='us-east-1')
         # Connect to mocked dynamodb
         g.dynamo = boto3.resource('dynamodb', 'us-east-1')
 
