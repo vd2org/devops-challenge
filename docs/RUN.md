@@ -5,7 +5,7 @@ See `application.env.template` for an example.
 
 ### application.env
 
-`application.env` should contains following values:
+`application.env` must contains following values:
 
 * CODENAME - codename of project, for example `thedoctor`.
 * AWS_KEY - AWS access key.
