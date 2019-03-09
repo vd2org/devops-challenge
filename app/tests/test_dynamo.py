@@ -73,4 +73,4 @@ def test_dynamo(func):
     )
 
     # testing database data
-    assert response['Item']['secret_code'], TEST_SECRET
+    assert response['Item']['secret_code'] == TEST_SECRET
